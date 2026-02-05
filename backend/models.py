@@ -6,9 +6,9 @@ class Recipe(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     cuisine = Column(String)
-    title = Column(String)
+    title = Column(String, index=True)
     serves = Column(String) 
-    rating = Column(Float)
+    rating = Column(Float, index=True)
     prep_time = Column(Integer)
     cook_time = Column(Integer)
     total_time = Column(Integer)

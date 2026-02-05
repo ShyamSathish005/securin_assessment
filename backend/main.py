@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from sqlalchemy import desc # Import this to handle descending order
+from sqlalchemy import desc 
 from database import get_db
 from models import Recipe
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,10 +16,8 @@ def read_recipes(page: int = 1, limit: int = 10, db: Session = Depends(get_db)):
     skip = (page - 1) * limit
     
  
-    query = db.query(Recipe).order_by(desc(Recipe.rating))
-    
-    total = query.count()
-    recipes = query.offset(skip).limit(limit).all()
+    recipes = db.query(Recipe).order_by(desc(Recipe.rating)).offset(skip).limit(limit).all()
+    total = db.query(Recipe).count()
     
     return {
         "total": total,
@@ -32,10 +30,9 @@ def read_recipes(page: int = 1, limit: int = 10, db: Session = Depends(get_db)):
 def search_recipes(q: str, page: int = 1, limit: int = 10, db: Session = Depends(get_db)):
     skip = (page - 1) * limit
     
-    query = db.query(Recipe).filter(Recipe.title.ilike(f"%{q}%")).order_by(desc(Recipe.rating))
-    
-    total = query.count()
-    recipes = query.offset(skip).limit(limit).all()
+    filtered = db.query(Recipe).filter(Recipe.title.ilike(f"%{q}%")).order_by(desc(Recipe.rating))
+    recipes = filtered.offset(skip).limit(limit).all()
+    total = filtered.count()
     
     return {
         "total": total,
