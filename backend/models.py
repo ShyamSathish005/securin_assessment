@@ -1,12 +1,12 @@
-from sqlalchemy import Column, Float, JSON, String, DateTime
+from sqlalchemy import Column, Integer, JSON, String
 from database import Base
 
-class CVE(Base):
+
+class Recipe(Base):
     __tablename__ = "recipes"
 
-    id = Column(String, primary_key=True, index=True)
-    identifier = Column(String, index=True)
-    description = Column(String)
-    published_date = Column(DateTime)
-    last_modified_date = Column(DateTime)
-    base_score = Column(Float, nullable=True)
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    ingredients = Column(JSON)
+    instructions = Column(JSON)
+    prep_time = Column(Integer, default=0)
